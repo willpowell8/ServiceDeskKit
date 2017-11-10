@@ -1,0 +1,11 @@
+use_frameworks!
+
+target 'ServiceDeskKit_Example' do
+  pod 'ServiceDeskKit', :path => '../'
+
+  target 'ServiceDeskKit_Tests' do
+    inherit! :search_paths
+
+    
+  end
+end
