@@ -109,13 +109,13 @@ class JIRARaiseTableViewController: UITableViewController {
                     cell = JIRAOptionCell(style: .value1, reuseIdentifier: "cell")
                     break;
                 case "option":
-                    /*if let system = field.schema?.system, system == .attachment {
+                    cell = JIRAOptionCell(style: .value1, reuseIdentifier: "cell")
+                case "array":
+                    if let system = field.jiraSchema?.system, system == "attachment" {
                         let imageCell = JIRAImageCell(style: .value1, reuseIdentifier: "cell")
                         imageCell.delegateSelection = self
                         cell = imageCell
-                    }else{*/
-                        cell = JIRAOptionCell(style: .value1, reuseIdentifier: "cell")
-                    //}
+                    }
                 default:
                     cell = JIRAOptionCell(style: .value1, reuseIdentifier: "cell")
                 }
@@ -188,7 +188,6 @@ class JIRARaiseTableViewController: UITableViewController {
         self.deselectCells()
         let field = cell.field
         if let type = field?.jiraSchema?.type {
-            var cell:JIRACell?
             switch(type){
             case "string": break
                 
@@ -198,7 +197,6 @@ class JIRARaiseTableViewController: UITableViewController {
                 table.delegate = self
                 table.applyData(data: data)
                 self.navigationController?.pushViewController(table, animated: true)
-                return;
                 break;
             case "option":
                 let table = JIRASubTableViewController()
@@ -206,8 +204,22 @@ class JIRARaiseTableViewController: UITableViewController {
                 table.delegate = self
                 table.applyData(data: data)
                 self.navigationController?.pushViewController(table, animated: true)
-                return;
                 break
+            case "array":
+                if let system = field?.jiraSchema?.system, system == "attachment" {
+                    let layout = UICollectionViewFlowLayout()
+                    layout.scrollDirection = .vertical
+                    layout.itemSize = CGSize(width: 160, height: 200)
+                    layout.sectionInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+                    let attachmentView = JIRAAttachmentsCollectionViewController(collectionViewLayout: layout)
+                    if let identifier = field?.fieldId, let attachments = data[identifier] as? [Any] {
+                        attachmentView.attachments = attachments
+                    }
+                    attachmentView.delegate = self
+                    attachmentView.field = field
+                    self.navigationController?.pushViewController(attachmentView, animated: true)
+                }
+                break;
             default:
                 
                 break;

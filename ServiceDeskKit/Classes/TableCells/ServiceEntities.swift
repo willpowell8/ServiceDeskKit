@@ -105,6 +105,7 @@ class ServiceDeskJIRASchema:ServiceDeskEntity {
     var type:String?
     var custom:String?
     var customId:String?
+    var system:String?
     func applyData(data:[AnyHashable:Any]){
         if let type = data["type"] as? String  {
             self.type = type
@@ -114,6 +115,9 @@ class ServiceDeskJIRASchema:ServiceDeskEntity {
         }
         if let customId = data["customId"] as? String  {
             self.customId = customId
+        }
+        if let system = data["system"] as? String  {
+            self.system = system
         }
     }
 }
