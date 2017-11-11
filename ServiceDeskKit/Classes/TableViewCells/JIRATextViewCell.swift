@@ -8,7 +8,7 @@
 import Foundation
 
 class JIRATextViewCell:JIRACell{
-    var textField:UITextView?
+    var textField:PlaceUITextView?
     
     override func setHighlighted(_ highlighted: Bool, animated: Bool) {
         
@@ -23,9 +23,10 @@ class JIRATextViewCell:JIRACell{
     }
     override func setup(){
         hideNormalLabel()
-        textField = UITextView()
-        //textField?.placeholder = "enter value"
-        //textField?.textAlignment = .right
+        textField = PlaceUITextView()
+        textField?.placeholder = "enter value"
+        textField?.placeholderFont = UIFont.systemFont(ofSize: 14)
+        textField?.font = UIFont.systemFont(ofSize: 14)
         self.addSubview(textField!)
         textField?.translatesAutoresizingMaskIntoConstraints = false
         
