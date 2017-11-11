@@ -270,7 +270,6 @@ public class ServiceDesk {
                 }
             }
         }
-        
         return ["fields":data]
     }
     
@@ -452,74 +451,6 @@ public class ServiceDesk {
         }
         task.resume()
     }
-    
-    
-    
-    
-    internal func getChildEntities(dClass: JIRAEntity.Type,urlstr:String, _ completion: @escaping (_ error:Bool, _ values:[JIRAEntity]?) -> Void){
-        guard var urlComponents = URLComponents(string: urlstr) else { return }
-        var parameters = urlComponents.queryItems?.filter({ (queryItem) -> Bool in
-            return queryItem.value != "null"
-        })
-        /*let params = parameters?.map({ (queryItem) -> URLQueryItem in
-            if queryItem.name == "currentProjectId" {
-                return URLQueryItem(name: "currentProjectId", value: project)
-            }
-            return queryItem
-        })
-        if let params2 = params{
-            parameters = params2
-        }*/
-        let url = urlComponents.url!
-        var request = URLRequest(url: url)
-        request.addValue("application/json", forHTTPHeaderField: "Accept")
-        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.httpMethod = "GET"
-        let task = session().dataTask(with:request) { data, response, error in
-            
-            if let _ = response as? HTTPURLResponse {
-                do {
-                    let json = try JSONSerialization.jsonObject(with: data!, options: .allowFragments)
-                    var values = [JIRAEntity]()
-                    if let jsonAry = json as? [[AnyHashable:Any]] {
-                        values = jsonAry.flatMap({ (element) -> JIRAEntity? in
-                            let val = dClass.init()
-                            if let valDisplayClass = val as? DisplayClass {
-                                valDisplayClass.applyData(data: element)
-                            }
-                            return val
-                        })
-                    }else if let jsonData = json as? [AnyHashable:Any] {
-                        if let jsonAry = jsonData["suggestions"] as? [[AnyHashable:Any]] {
-                            values = jsonAry.flatMap({ (element) -> JIRAEntity? in
-                                let val = dClass.init()
-                                if let valDisplayClass = val as? DisplayClass {
-                                    valDisplayClass.applyData(data: element)
-                                }
-                                return val
-                            })
-                        }else if let jsonAry = jsonData["sections"] as? [[AnyHashable:Any]] {
-                            values = jsonAry.flatMap({ (element) -> JIRAEntity? in
-                                let val = dClass.init()
-                                if let valDisplayClass = val as? DisplayClass {
-                                    valDisplayClass.applyData(data: element)
-                                }
-                                return val
-                            })
-                        }
-                    }
-                    
-                    completion(true,values)
-                    
-                } catch {
-                    print("error serializing JSON: \(error)")
-                    completion(false,nil)
-                }
-            }
-        }
-        task.resume()
-    }
-    
     
     public func generateBoundaryString() -> String
     {
