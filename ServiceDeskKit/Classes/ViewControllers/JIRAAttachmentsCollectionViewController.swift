@@ -123,7 +123,7 @@ extension JIRAAttachmentsCollectionViewController:UIImagePickerControllerDelegat
         if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
             self.attachments.append(image)
             DispatchQueue.main.async {
-                //self.delegate?.jiraSelected(field:self.field, item: self.attachments)
+                self.delegate?.jiraSelected(field:self.field, item: self.attachments)
                 self.collectionView?.reloadData()
             }
         }
@@ -162,6 +162,6 @@ extension JIRAAttachmentsCollectionViewController:JiraImageViewControllerDelegat
     func updateImage(image: UIImage, attachmentID:Int) {
         attachments[attachmentID] = image
         collectionView?.reloadData()
-        //self.delegate?.jiraSelected(field:self.field, item: self.attachments)
+        self.delegate?.jiraSelected(field:self.field, item: self.attachments)
     }
 }

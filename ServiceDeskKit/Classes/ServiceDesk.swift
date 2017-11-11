@@ -20,10 +20,12 @@ public class ServiceDesk {
     private static let url_request  = "rest/servicedeskapi/request";
     private static let url_request_attachments = "rest/servicedeskapi/request/%@/attachments";
     
-    
-    
     private static let url_myself = "/rest/api/2/myself"
-    private static let url_jql_property = "/rest/api/1.0/jql/autocomplete?"
+    
+    public static var placeHolderText = "enter value"
+    public static var formTitle = "Service Desk"
+    public static var formCreateButtonText = "Save"
+    public static var formCancelButtonText = "Cancel"
     
     internal static let MainColor = UIColor(red:32/255.0, green: 80.0/255.0, blue: 129.0/255.0,alpha:1.0)
     

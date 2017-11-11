@@ -24,7 +24,7 @@ class JIRATextViewCell:JIRACell{
     override func setup(){
         hideNormalLabel()
         textField = PlaceUITextView()
-        textField?.placeholder = "enter value"
+        textField?.placeholder = ServiceDesk.placeHolderText
         textField?.placeholderFont = UIFont.systemFont(ofSize: 14)
         textField?.font = UIFont.systemFont(ofSize: 14)
         self.addSubview(textField!)

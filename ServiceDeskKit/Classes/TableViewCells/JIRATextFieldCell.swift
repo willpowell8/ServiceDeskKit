@@ -23,7 +23,7 @@ class JIRATextFieldCell:JIRACell{
     }
     override func setup(){
         textField = UITextField()
-        textField?.placeholder = "enter value"
+        textField?.placeholder = ServiceDesk.placeHolderText
         textField?.textAlignment = .right
         self.addSubview(textField!)
         textField?.translatesAutoresizingMaskIntoConstraints = false

@@ -56,7 +56,7 @@ class JIRARaiseTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.navigationItem.title = "Service Desk"
+        self.navigationItem.title = ServiceDesk.formTitle
         
         let cancelButton = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(close))
         self.navigationItem.leftBarButtonItems = [cancelButton]
