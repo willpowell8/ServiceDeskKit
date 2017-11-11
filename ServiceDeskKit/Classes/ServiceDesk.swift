@@ -91,9 +91,6 @@ public class ServiceDesk {
     // The fields that should be added for all tasks by default
     public var globalDefaultFields:[String:Any]?
     
-    
-    var projects:[JIRAProject]?
-    
     internal static func getBundle()->Bundle{
         let podBundle =  Bundle.init(for: ServiceDesk.self)
         let bundleURL = podBundle.url(forResource: "ServiceDeskKit" , withExtension: "bundle")
@@ -260,9 +257,9 @@ public class ServiceDesk {
             if let key = key as? String {
                 if value is String {
                     data[key] = value
-                }else if let jiraEntity = value as? JIRAEntity {
+                }else if let jiraEntity = value as? ServiceDeskEntity {
                     data[key] = jiraEntity.export()
-                }else if let jiraEntityAry = value as? [JIRAEntity] {
+                }else if let jiraEntityAry = value as? [ServiceDeskEntity] {
                     let entities = jiraEntityAry.map({ (entity) -> Any? in
                         return entity.export()
                     })

@@ -84,46 +84,17 @@ class JIRASubTableViewController: UITableViewController {
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        if elementsFiltered.count > 0 {
-            let element = elementsFiltered[0]
-            if element is ChildrenClass {
-                return elementsFiltered.count
-            }
-        }
         return 1
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        
-        if elementsFiltered.count > 0 {
-            let element = elementsFiltered[0]
-            if element is ChildrenClass {
-                if let currentElement = elementsFiltered[section] as? ChildrenClass {
-                    if let children = currentElement.children {
-                        return children.count
-                    }
-                    return 0
-                }
-            }
-        }
         return elementsFiltered.count
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell()
         var element:DisplayClass?
-        if elements.count > 0, elementsFiltered[0] is ChildrenClass  {
-            if let currentElement = elementsFiltered[indexPath.section] as? ChildrenClass {
-                if let children = currentElement.children {
-                    if let e = children[indexPath.row] as? DisplayClass {
-                        element = e
-                    }
-                }
-            }
-        }else{
-            element = elementsFiltered[indexPath.row]
-        }
+        element = elementsFiltered[indexPath.row]
         cell.textLabel?.text = element?.label
         if let selectedElementLabel = selectedField?.label, selectedElementLabel == element?.label {
             cell.accessoryType = .checkmark
@@ -138,19 +109,7 @@ class JIRASubTableViewController: UITableViewController {
     }
     
     func applySelectionToggle(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath){
-        var elementTemp:DisplayClass?
-        if elements.count > 0, elementsFiltered[0] is ChildrenClass {
-            if let currentElement = elementsFiltered[indexPath.section] as? ChildrenClass {
-                if let children = currentElement.children, let e = children[indexPath.row] as? DisplayClass {
-                    elementTemp = e
-                }
-            }
-        }else{
-            elementTemp = elementsFiltered[indexPath.row]
-        }
-        guard let element = elementTemp else {
-            return
-        }
+        let element = elementsFiltered[indexPath.row]
         delegate?.jiraSelected(field:self.field, item: element)
         navigationController?.popViewController(animated: true)
     }

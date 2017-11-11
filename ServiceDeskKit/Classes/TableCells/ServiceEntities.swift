@@ -8,6 +8,11 @@
 import Foundation
 
 
+protocol DisplayClass:NSObjectProtocol {
+    var label:String?{get}
+    func applyData(data:[AnyHashable:Any])
+}
+
 class ServiceDeskEntity :NSObject {
     required public override init() {
         super.init()
