@@ -6,6 +6,7 @@
 //
 
 import Foundation
+
 class JIRAOptionCell:JIRACell{
     override func setup(){
         self.accessoryType = .disclosureIndicator

@@ -6,10 +6,10 @@
 //
 
 import Foundation
+
 protocol JIRAImageCellDelegate {
     func jiraImageCellSelected(cell:JIRACell,any:Any, index:Int)
 }
-
 
 class JIRAImageCell:JIRACell,UICollectionViewDelegate, UICollectionViewDataSource{
     var collectionView:UICollectionView?
@@ -23,16 +23,13 @@ class JIRAImageCell:JIRACell,UICollectionViewDelegate, UICollectionViewDataSourc
         flow.itemSize = CGSize(width: 130, height: 170)
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: flow)
         self.addSubview(collectionView!)
-        //imageViewArea = UIImageView()
-        //imageViewArea?.backgroundColor = .clear
-        //self.addSubview(imageViewArea!)
-        //imageViewArea?.translatesAutoresizingMaskIntoConstraints = false
+        hideNormalLabel()
         collectionView?.translatesAutoresizingMaskIntoConstraints = false
         if #available(iOS 9.0, *) {
-            collectionView?.leftAnchor.constraint(equalTo: self.textLabel!.rightAnchor, constant: 10).isActive = true
+            collectionView?.leftAnchor.constraint(equalTo: self.titleLabel.leftAnchor, constant: 0).isActive = true
             collectionView?.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -33).isActive = true
             collectionView?.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -1).isActive = true
-            collectionView?.topAnchor.constraint(equalTo: self.topAnchor, constant: 1).isActive = true
+            collectionView?.topAnchor.constraint(equalTo: self.topAnchor, constant: 30).isActive = true
         }
         collectionView?.delegate = self
         collectionView?.dataSource = self

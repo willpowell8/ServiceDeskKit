@@ -8,19 +8,21 @@
 
 import Foundation
 
-
 class JIRACell:UITableViewCell{
     
     var field:ServiceDeskRequestField?
     var delegate:JIRASubTableViewControllerDelegate?
+    var titleLabel:UILabel = UILabel()
     
     func start(field:ServiceDeskRequestField?, data:[String:Any]?){
         self.field = field
-        self.textLabel?.text = field?.name
-        self.setup()
-        if let data = data {
-            self.applyData(data: data)
+        textLabel?.text = field?.name
+        titleLabel.text = field?.name
+        setup()
+        guard let dataV = data else{
+            return
         }
+        applyData(data: dataV)
     }
     
     func setup(){
@@ -41,6 +43,16 @@ class JIRACell:UITableViewCell{
     
     override func setSelected(_ selected: Bool, animated: Bool) {
         
+    }
+    
+    func hideNormalLabel(){
+        addSubview(titleLabel)
+        textLabel?.isHidden = true
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false
+        if #available(iOS 9.0, *), let textLabel = self.textLabel {
+            titleLabel.leftAnchor.constraint(equalTo: textLabel.leftAnchor, constant: 0).isActive = true
+            titleLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 10).isActive = true
+        }
     }
     
 }

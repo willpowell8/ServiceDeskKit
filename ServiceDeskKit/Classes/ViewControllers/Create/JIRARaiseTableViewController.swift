@@ -109,7 +109,11 @@ class JIRARaiseTableViewController: UITableViewController {
                 var cell:JIRACell?
                 switch(type){
                 case "string":
-                    cell = JIRATextFieldCell(style: .value1, reuseIdentifier: "cell")
+                    if let system = field.jiraSchema?.system, system == "description" {
+                        cell = JIRATextViewCell(style: .value1, reuseIdentifier: "cell")
+                    }else{
+                        cell = JIRATextFieldCell(style: .value1, reuseIdentifier: "cell")
+                    }
                 case "option-with-child":
                     cell = JIRAOptionCell(style: .value1, reuseIdentifier: "cell")
                     break;
@@ -343,7 +347,7 @@ extension JIRARaiseTableViewController:JIRASubTableViewControllerDelegate {
 extension JIRARaiseTableViewController:JiraImageViewControllerDelegate {
     func updateImage(image: UIImage, attachmentID:Int) {
         if let selectedCell = self.selectedCell {
-            /*guard let field = selectedCell.field, let identifier = field.identifier else {
+            guard let field = selectedCell.field, let identifier = field.fieldId else {
                 return
             }
             if var ary = self.data[identifier] as? [Any] {
@@ -351,7 +355,7 @@ extension JIRARaiseTableViewController:JiraImageViewControllerDelegate {
                 self.data[identifier] = ary
             }
             
-            self.selectedCell?.applyData(data: self.data)*/
+            self.selectedCell?.applyData(data: self.data)
         }
     }
 }

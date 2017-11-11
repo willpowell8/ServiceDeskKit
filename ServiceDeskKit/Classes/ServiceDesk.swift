@@ -28,7 +28,6 @@ public class ServiceDesk {
     internal static let MainColor = UIColor(red:32/255.0, green: 80.0/255.0, blue: 129.0/255.0,alpha:1.0)
     
     private var _host:String?
-    // jira host eg. http://company.atlassian.net for JIRA cloud hosted
     public var host:String? {
         get{
             return _host
@@ -36,14 +35,12 @@ public class ServiceDesk {
     }
     
     private var _serviceDeskId:String?
-    // jira host eg. http://company.atlassian.net for JIRA cloud hosted
     public var serviceDeskId:String? {
         get{
             return _serviceDeskId
         }
     }
     private var _requestTypeId:String?
-    // jira host eg. http://company.atlassian.net for JIRA cloud hosted
     public var requestTypeId:String? {
         get{
             return _requestTypeId
@@ -52,8 +49,7 @@ public class ServiceDesk {
     
     private var _username:String?
     
-    // jira host eg. http://company.atlassian.net for JIRA cloud hosted
-    var username:String? {
+    internal var username:String? {
         get{
             if _username != nil {
                 return _username
@@ -68,7 +64,7 @@ public class ServiceDesk {
     }
     
     private var _password:String?
-    var password:String? {
+    internal var password:String? {
         get{
             if _password != nil {
                 return _password
@@ -171,7 +167,7 @@ public class ServiceDesk {
         }
     }
     
-    func generateBearerToken(username:String, password:String)->String?{
+    internal func generateBearerToken(username:String, password:String)->String?{
         let userPasswordString = username + ":" + password
         if let userPasswordData = userPasswordString.data(using: String.Encoding.utf8) {
             let base64EncodedCredential = userPasswordData.base64EncodedString(options: NSData.Base64EncodingOptions(rawValue:0))
@@ -180,7 +176,7 @@ public class ServiceDesk {
         return nil
     }
 
-    func getBearerToken()->String?{
+    internal func getBearerToken()->String?{
         if let username = self.username, let password =
             self.password {
             return generateBearerToken(username: username, password: password)
@@ -188,13 +184,13 @@ public class ServiceDesk {
         return ""
     }
     
-    func session()->URLSession{
+    internal func session()->URLSession{
         let config = URLSessionConfiguration.default
         config.httpAdditionalHeaders = ["Authorization" : getBearerToken()!]
         return URLSession(configuration: config)
     }
     
-    func session(_ username:String, _ password:String)->URLSession{
+    internal func session(_ username:String, _ password:String)->URLSession{
         let config = URLSessionConfiguration.default
         if let authString = generateBearerToken(username: username, password: password) {
             config.httpAdditionalHeaders = ["Authorization" : authString]
@@ -202,7 +198,7 @@ public class ServiceDesk {
         return URLSession(configuration: config)
     }
     
-    public func login(username:String, password:String, completion: @escaping (_ completed:Bool, _ error:String?) -> Void) {
+    internal func login(username:String, password:String, completion: @escaping (_ completed:Bool, _ error:String?) -> Void) {
         let url = URL(string: "\(host!)\(ServiceDesk.url_myself)")!
         var request = URLRequest(url: url)
         request.addValue("application/json", forHTTPHeaderField: "Accept")
@@ -227,7 +223,7 @@ public class ServiceDesk {
         task.resume()
     }
     
-    static func environmentString()->String {
+    internal static func environmentString()->String {
         var buildStr = "";
         var versionStr = "";
         if let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String {
@@ -237,17 +233,6 @@ public class ServiceDesk {
             buildStr = version
         }
         let systemVersion = UIDevice.current.systemVersion
-        /*var output = ""
-        Bundle.allFrameworks.forEach { (bundle) in
-            if let bundleIdentifier = bundle.bundleIdentifier, bundleIdentifier.contains("com.apple") == false{
-                var record = bundleIdentifier
-                if let version = bundle.infoDictionary!["CFBundleShortVersionString"] as? String {
-                    record += " - \(version)"
-                }
-                output += record+"\n"
-            }
-        }*/
-        
         return "\(UIDevice.current.model) \(systemVersion) version: \(versionStr) - build: \(buildStr)"
     }
     
@@ -452,10 +437,6 @@ public class ServiceDesk {
                         }
                         return
                     }
-                    
-                    
-                    //UserDefaults.standard.set(data!, forKey: "JIRA_CREATEMETA_CACHE")
-                    //UserDefaults.standard.synchronize()
                     let serviceDesk  = ServiceDeskRequest()
                     serviceDesk.applyData(data: json)
                     DispatchQueue.main.async {
