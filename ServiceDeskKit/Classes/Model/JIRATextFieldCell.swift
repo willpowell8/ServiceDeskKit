@@ -40,11 +40,11 @@ class JIRATextFieldCell:JIRACell{
     }
     
     override func applyData(data:[String:Any]){
-       /* if let field = field, let identifier = field.identifier {
+        if let field = field, let identifier = field.fieldId {
             if let element = data[identifier] as? String {
                 self.textField?.text = element
             }
-        }*/
+        }
     }
     
     override func deselect() {

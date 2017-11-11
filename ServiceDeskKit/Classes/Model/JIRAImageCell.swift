@@ -42,12 +42,12 @@ class JIRAImageCell:JIRACell,UICollectionViewDelegate, UICollectionViewDataSourc
     }
     
     override func applyData(data:[String:Any]){
-        /*if let field = field, let identifier = field.identifier {
+        if let field = field, let identifier = field.fieldId {
             if let element = data[identifier] as? [Any] {
                 attachments = element
                 collectionView?.reloadData()
             }
-        }*/
+        }
     }
     
     override func height()->CGFloat{

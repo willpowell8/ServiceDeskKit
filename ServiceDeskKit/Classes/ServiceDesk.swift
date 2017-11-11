@@ -150,10 +150,10 @@ public class ServiceDesk {
                     fields["attachment"] = [image]
                 }
             }
-            if let environment = fields["environment"] as? String {
-                fields["environment"] = environment + " " + ServiceDesk.environmentString()
+            if let environment = fields["description"] as? String {
+                fields["description"] = environment + " " + ServiceDesk.environmentString()
             }else{
-                fields["environment"] = ServiceDesk.environmentString()
+                fields["description"] = ServiceDesk.environmentString()
             }
             let newVC = JIRARaiseTableViewController()
             var currentController: UIViewController! = rootController

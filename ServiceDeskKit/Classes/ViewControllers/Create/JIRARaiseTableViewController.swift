@@ -16,7 +16,12 @@ class JIRARaiseTableViewController: UITableViewController {
     var quickLookSelected = [QLPreviewItem]()
 
     var closeAction:Bool = false
-    var request:ServiceDeskRequest?
+    var request:ServiceDeskRequest?{
+        didSet{
+            generateInitialData()
+            createCells()
+        }
+    }
     
     var hasLoaded = false
     var cells = [JIRACell]()
@@ -29,22 +34,22 @@ class JIRARaiseTableViewController: UITableViewController {
     
     func generateInitialData(){
         var newData = [String:Any]()
-        /*issueType?.fields?.forEach({ (field) in
-            if let type = field.schema?.type {
+        request?.requestTypeFields?.forEach({ (field) in
+           if let type = field.jiraSchema?.type {
                 switch(type){
                 default:
-                    if let identifier = field.identifier, let instanceData = singleInstanceDefaultFields?[identifier] {
+                    if let identifier = field.fieldId, let instanceData = singleInstanceDefaultFields?[identifier] {
                         newData[identifier] = instanceData
-                    }else if let system = field.schema?.system, system == .attachment {
+                    }else if let system = field.jiraSchema?.system, system == "attachment" {
                         newData["attachment"] = image
                     }else{
-                        if let allowedValues = field.allowedValues, allowedValues.count == 1, let identifier =  field.identifier {
+                        if let allowedValues = field.validValues, allowedValues.count == 1, let identifier =  field.fieldId {
                             newData[identifier] = allowedValues[0]
                         }
                     }
                 }
             }
-        })*/
+        })
         data = newData
     }
     
@@ -84,7 +89,6 @@ class JIRARaiseTableViewController: UITableViewController {
         hud.label.text = "Loading ..."
         ServiceDesk.shared.createMeta({ (error, request) in
             self.request = request
-            self.createCells()
             hud.hide(animated: true)
             self.tableView.reloadData()
         })
