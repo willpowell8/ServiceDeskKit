@@ -70,6 +70,7 @@ class JIRARaiseTableViewController: UITableViewController {
         }else{
             self.load()
         }
+        tableView.tableFooterView = UIView()
     }
     
     override public func viewDidAppear(_ animated: Bool) {

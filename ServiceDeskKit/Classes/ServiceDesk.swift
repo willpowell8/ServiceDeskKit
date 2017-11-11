@@ -17,8 +17,8 @@ public class ServiceDesk {
     private static let url_request_metadata = "/rest/servicedeskapi/servicedesk/[SERVICE_DESK_ID]/requesttype/[REQUEST_TYPE_ID]/field"
 
     // END POINTS
-    private static let url_issue  = "rest/api/2/issue";
-    private static let url_issue_attachments = "rest/api/2/issue/%@/attachments";
+    private static let url_request  = "rest/servicedeskapi/request";
+    private static let url_request_attachments = "rest/servicedeskapi/request/%@/attachments";
     
     
     
@@ -251,7 +251,7 @@ public class ServiceDesk {
         return "\(UIDevice.current.model) \(systemVersion) version: \(versionStr) - build: \(buildStr)"
     }
     
-    private func createDataTransferObject(_ issueData:[AnyHashable:Any]) -> [String:Any]{
+    private func createDataTransferObject(_ issueData:[AnyHashable:Any], attachmentIds:[Any]?) -> [String:Any]{
         var data = [String:Any]()
         issueData.forEach { (key,value) in
             if let key = key as? String {
@@ -267,12 +267,30 @@ public class ServiceDesk {
                 }
             }
         }
-        return ["fields":data]
+        if attachmentIds != nil {
+            data["attachment"] = attachmentIds
+        }
+        guard let requestTypeId = self.requestTypeId else {
+            return [String:Any]()
+        }
+        guard let serviceDeskId = self.serviceDeskId else {
+            return [String:Any]()
+        }
+        return ["requestFieldValues":data, "requestTypeId":requestTypeId,"serviceDeskId":serviceDeskId]
     }
     
     internal func create(issueData:[AnyHashable:Any], completion: @escaping (_ error:String?,_ key:String?) -> Void){
-        let url = URL(string: "\(host!)/\(ServiceDesk.url_issue)")!
-        let data = createDataTransferObject(issueData)
+        if let attachments = issueData["attachment"] as? [Any] {
+            uploadAttachments(attachments: attachments, completion: { (error, keys) in
+                self.createPostAttachment(issueData: issueData, attachmentIds: keys, completion: completion)
+            })
+        }else{
+            createPostAttachment(issueData: issueData, attachmentIds: nil, completion: completion)
+        }
+    }
+    internal func createPostAttachment(issueData:[AnyHashable:Any], attachmentIds:[Any]?, completion: @escaping (_ error:String?,_ key:String?) -> Void){
+        let url = URL(string: "\(host!)/\(ServiceDesk.url_request)")!
+        let data = createDataTransferObject(issueData, attachmentIds:attachmentIds)
         var request = URLRequest(url: url)
         request.addValue("application/json", forHTTPHeaderField: "Accept")
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
@@ -285,21 +303,14 @@ public class ServiceDesk {
                 if let _ = response as? HTTPURLResponse {
                     do {
                         let json = try JSONSerialization.jsonObject(with: data!, options: .allowFragments)  as? NSDictionary
-                        if let key = json?.object(forKey: "key") as? String {
-                            if let attachments = issueData["attachment"] as? [Any] {
-                                self.uploadAttachments(key: key, attachments: attachments, completion: completion)//.postImage(key: key, image: image, completion: completion)
-                            }else{
-                                completion(nil, key)
-                            }
-                        }else if let errors = json?.object(forKey: "errors") as? [String:Any] {
-                            var str = [String]()
-                            errors.forEach({ (key, value) in
-                                if let val = value as? String {
-                                    str.append(val)
-                                }
-                            })
-                            let errorMessage = str.joined(separator: "\n")
+                        let str = String(data:data!,encoding:.utf8)
+                        print(str)
+                        if let key = json?.object(forKey: "issueKey") as? String {
+                            completion(nil, key)
+                        }else if let errorMessage = json?.object(forKey: "errorMessage") as? String {
                             completion(errorMessage, nil)
+                        }else{
+                            completion("Unknown error", nil)
                         }
                     } catch {
                         print("error serializing JSON: \(error)")
@@ -315,9 +326,9 @@ public class ServiceDesk {
     }
     
     
-    internal func uploadAttachments(key:String, attachments:[Any], completion: @escaping (_ error:String?,_ key:String?) -> Void){
+    internal func uploadAttachments(attachments:[Any]?, completion: @escaping (_ error:String?,_ keys:[Any]?) -> Void){
         var datas = [(name:String, data:Data, mimeType:String)]()
-        attachments.forEach { (attachment) in
+        attachments?.forEach { (attachment) in
             if let attachmentPath = attachment as? String, let attachmentURL:URL = URL(string:attachmentPath) {
                 if let data = try? Data(contentsOf:attachmentURL) {
                     let mimeType = attachmentURL.absoluteString.mimeType()
@@ -336,23 +347,24 @@ public class ServiceDesk {
                 }
             }
         }
-        uploadDataAttachments(key:key, attachments: datas, count:0, completion: completion)
+        uploadDataAttachments(keys:[Any](), attachments: datas, count:0, completion: completion)
     }
     
-    internal func uploadDataAttachments(key:String, attachments:[(name:String, data:Data, mimeType:String)], count:Int, completion: @escaping (_ error:String?,_ key:String?) -> Void){
+    internal func uploadDataAttachments(keys:[Any]?,attachments:[(name:String, data:Data, mimeType:String)], count:Int, completion: @escaping (_ error:String?,_ keys:[Any]?) -> Void){
         if count >= attachments.count {
-            completion(nil, key)
+            completion(nil, keys)
         }else{
             let attachment = attachments[count]
-            self.postAttachment(key: key, data: attachment, completion: { (error, keyStr) in
-                self.uploadDataAttachments(key: key, attachments: attachments, count: (count + 1), completion: completion)
+            self.postAttachment(keys:keys,data: attachment, completion: { (error, keysData) in
+                self.uploadDataAttachments(keys: keysData, attachments: attachments, count: (count + 1), completion: completion)
             })
         }
     }
     
-    internal func postAttachment(key:String, data:(name:String, data:Data, mimeType:String), completion: @escaping (_ error:String?,_ key:String?) -> Void)
+    internal func postAttachment(keys:[Any]?,data:(name:String, data:Data, mimeType:String), completion: @escaping (_ error:String?,_ keys:[Any]?) -> Void)
     {
-        let url = URL(string: "\(host!)/rest/api/2/issue/\(key)/attachments")!
+        let serviceDeskId = self.serviceDeskId!
+        let url = URL(string: "\(host!)/rest/servicedeskapi/servicedesk/\(serviceDeskId)/attachTemporaryFile")!
         var request = URLRequest(url: url)
         request.addValue("application/json", forHTTPHeaderField: "Accept")
         request.addValue("nocheck", forHTTPHeaderField: "X-Atlassian-Token")
@@ -389,8 +401,19 @@ public class ServiceDesk {
             
             if let _ = response as? HTTPURLResponse {
                 do {
-                    let _ = try JSONSerialization.jsonObject(with: data!, options: .allowFragments)  as? NSDictionary
-                    completion(nil, key)
+                    guard let attachmentResponse = try JSONSerialization.jsonObject(with: data!, options: .allowFragments)  as? [AnyHashable:Any] else {
+                        completion("error serializing JSON: \(error)", nil)
+                        return
+                    }
+                    var k = keys
+                    if let temporaryAttachments  = attachmentResponse["temporaryAttachments"] as? [Any] {
+                        temporaryAttachments.forEach({ (attachment) in
+                            if let a = attachment as? [AnyHashable:Any], let temporaryAttachmentId = a["temporaryAttachmentId"] as? String{
+                                k?.append(temporaryAttachmentId)
+                            }
+                        })
+                    }
+                    completion(nil, k)
                 } catch {
                     print("error serializing JSON: \(error)")
                     completion("error serializing JSON: \(error)", nil)

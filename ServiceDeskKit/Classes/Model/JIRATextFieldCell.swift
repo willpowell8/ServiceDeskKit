@@ -53,6 +53,6 @@ class JIRATextFieldCell:JIRACell{
     }
     
     @objc func didChangeTextfield(){
-        //delegate?.jiraSelected(field: field, item: self.textField?.text)
+        delegate?.jiraSelected(field: field, item: self.textField?.text)
     }
 }
