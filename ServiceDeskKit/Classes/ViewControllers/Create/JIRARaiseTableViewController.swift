@@ -32,11 +32,43 @@ class JIRARaiseTableViewController: UITableViewController {
     var image:UIImage?
     var data = [String:Any]() // working ticket data
     
+    func findChildValue(identifier:String,validValues:[ServiceDeskRequestFieldValue]?)->ServiceDeskRequestFieldValue?{
+        if let vValues = validValues {
+            for i in 0..<vValues.count{
+                let value = vValues[i]
+                if value.value == identifier {
+                    return value
+                }
+                if let c = value.children, let s = findChildValue(identifier: identifier, validValues: c) {
+                    return s
+                }
+            }
+        }
+        return nil
+    }
+    
     func generateInitialData(){
         var newData = [String:Any]()
         request?.requestTypeFields?.forEach({ (field) in
            if let type = field.jiraSchema?.type {
                 switch(type){
+                case "option":
+                    if let identifier = field.fieldId, let instanceData = singleInstanceDefaultFields?[identifier] as? String {
+                        let foundValue = field.validValues?.filter({ (serviceValue) -> Bool in
+                            return serviceValue.value == instanceData
+                        })
+                        if let f = foundValue {
+                            newData[identifier] = f
+                        }
+                    }
+                    break;
+                case "option-with-child":
+                    if let identifier = field.fieldId, let instanceData = singleInstanceDefaultFields?[identifier] as? String, let validValues = field.validValues {
+                        if let f = findChildValue(identifier: instanceData, validValues: validValues) {
+                            newData[identifier] = f
+                        }
+                    }
+                    break;
                 default:
                     if let identifier = field.fieldId, let instanceData = singleInstanceDefaultFields?[identifier] {
                         newData[identifier] = instanceData
