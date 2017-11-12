@@ -28,9 +28,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		06CE0A9A749D4591E8C86F17 /* ServiceDeskKit.podspec */ = {isa = PBXFileReference; includeInIndex = 1; name = ServiceDeskKit.podspec; path = ../ServiceDeskKit.podspec; sourceTree = "<group>"; };
+		06CE0A9A749D4591E8C86F17 /* ServiceDeskKit.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = ServiceDeskKit.podspec; path = ../ServiceDeskKit.podspec; sourceTree = "<group>"; };
 		115F5644584E8A6DA96EAF7C /* Pods-ServiceDeskKit_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ServiceDeskKit_Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ServiceDeskKit_Tests/Pods-ServiceDeskKit_Tests.debug.xcconfig"; sourceTree = "<group>"; };
-		190E641EBEB68E0028E07DBC /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
+		190E641EBEB68E0028E07DBC /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 		2ED25AEE4EE129F33C8CBBF0 /* Pods-ServiceDeskKit_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ServiceDeskKit_Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-ServiceDeskKit_Tests/Pods-ServiceDeskKit_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		3391DB8F9BCE8572660F0D21 /* Pods_ServiceDeskKit_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ServiceDeskKit_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		470AFE462F4F13820F61EAA4 /* Pods_ServiceDeskKit_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ServiceDeskKit_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -46,7 +46,7 @@
 		607FACEB1AFB9204008FA782 /* Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tests.swift; sourceTree = "<group>"; };
 		A8893491BF92918202432062 /* Pods-ServiceDeskKit_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ServiceDeskKit_Example.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ServiceDeskKit_Example/Pods-ServiceDeskKit_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		F3E721995DB90B1FDBC45BC5 /* Pods-ServiceDeskKit_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ServiceDeskKit_Example.release.xcconfig"; path = "Pods/Target Support Files/Pods-ServiceDeskKit_Example/Pods-ServiceDeskKit_Example.release.xcconfig"; sourceTree = "<group>"; };
-		FFCD6DB1C74444E7F859E368 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; name = README.md; path = ../README.md; sourceTree = "<group>"; };
+		FFCD6DB1C74444E7F859E368 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -514,7 +514,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -529,7 +529,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};

@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'ServiceDeskKit'
-  s.version          = '0.1.0'
+  s.version          = '1.0.0'
   s.summary          = 'JIRA Service Desk Atlassian submission for iOS'
 
 # This description is used to generate tags and improve search results.

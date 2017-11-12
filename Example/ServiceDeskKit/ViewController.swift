@@ -13,8 +13,7 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        ServiceDesk.shared.setup(host: "{HOST}", serviceDeskId: "{serviceDeskId}", requestTypeId: "{requestTypeId}")
+        ServiceDesk.shared.setup(host: "{host}", serviceDeskId: "{serviceDeskId}", requestTypeId: "{requestTypeId}")
         ServiceDesk.shared.preAuth(username: "{username}", password: "{password}")
         
     }
@@ -48,9 +47,9 @@ class ViewController: UIViewController {
         let textColor = UIColor.black
         
         let textFontAttributes = [
-            NSAttributedStringKey.font: font!,
-            NSAttributedStringKey.foregroundColor: textColor,
-            NSAttributedStringKey.paragraphStyle: paragraphStyle
+            NSFontAttributeName: font!,
+            NSForegroundColorAttributeName: textColor,
+            NSParagraphStyleAttributeName: paragraphStyle
         ]
         
         let text = "HELLO WORLD"
