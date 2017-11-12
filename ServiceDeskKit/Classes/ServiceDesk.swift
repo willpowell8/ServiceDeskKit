@@ -166,7 +166,7 @@ public class ServiceDesk {
             nav.navigationBar.barStyle = .blackOpaque
             nav.navigationBar.tintColor = UIColor.white
             nav.navigationBar.barTintColor = ServiceDesk.MainColor
-            nav.navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.white]
+            nav.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white]
             nav.navigationBar.isTranslucent = false
             nav.navigationBar.isOpaque = true
             currentController.present(nav, animated: true)
