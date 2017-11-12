@@ -290,8 +290,8 @@ public class ServiceDesk {
                 if let _ = response as? HTTPURLResponse {
                     do {
                         let json = try JSONSerialization.jsonObject(with: data!, options: .allowFragments)  as? NSDictionary
-                        let str = String(data:data!,encoding:.utf8)
-                        print(str)
+                        //let str = String(data:data!,encoding:.utf8)
+                        //print(str)
                         if let key = json?.object(forKey: "issueKey") as? String {
                             completion(nil, key)
                         }else if let errorMessage = json?.object(forKey: "errorMessage") as? String {
