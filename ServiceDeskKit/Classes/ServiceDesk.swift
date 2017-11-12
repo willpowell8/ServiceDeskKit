@@ -145,8 +145,8 @@ public class ServiceDesk {
                     fields["attachment"] = [image]
                 }
             }
-            if let environment = fields["description"] as? String {
-                fields["description"] = environment + " " + ServiceDesk.environmentString()
+            if let description = fields["description"] as? String {
+                fields["description"] = description + "\n" + ServiceDesk.environmentString()
             }else{
                 fields["description"] = ServiceDesk.environmentString()
             }
