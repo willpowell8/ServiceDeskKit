@@ -33,6 +33,11 @@ class JIRASubTableViewController: UITableViewController {
     var elements = [DisplayClass]() {
         didSet{
             elementsFiltered = elements
+            if elements.count > 5 {
+                tableView.tableHeaderView = searchController.searchBar
+            }else{
+                tableView.tableHeaderView = nil
+            }
         }
     }
     var elementsFiltered = [DisplayClass]() {
@@ -73,7 +78,7 @@ class JIRASubTableViewController: UITableViewController {
         searchController.dimsBackgroundDuringPresentation = false
         searchController.searchBar.delegate = self
         definesPresentationContext = true
-        tableView.tableHeaderView = searchController.searchBar
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -110,8 +115,16 @@ class JIRASubTableViewController: UITableViewController {
     
     func applySelectionToggle(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath){
         let element = elementsFiltered[indexPath.row]
+        if let serviceRequestField = element as? ServiceDeskRequestFieldValue, let children = serviceRequestField.children, children.count > 0 {
+            let v = JIRASubTableViewController()
+            v.field = self.field
+            v.elements = children
+            v.delegate = self.delegate
+            navigationController?.pushViewController(v, animated: true)
+            return
+        }
         delegate?.jiraSelected(field:self.field, item: element)
-        navigationController?.popViewController(animated: true)
+        navigationController?.popToRootViewController(animated: true)
     }
     
     override func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
