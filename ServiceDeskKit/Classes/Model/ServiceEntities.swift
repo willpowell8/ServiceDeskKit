@@ -104,6 +104,10 @@ class ServiceDeskRequestFieldValue:ServiceDeskEntity, DisplayClass {
             })
         }
     }
+    
+    func export()->Any? {
+        return value
+    }
 }
 
 class ServiceDeskJIRASchema:ServiceDeskEntity {
