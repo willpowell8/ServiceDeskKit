@@ -105,7 +105,7 @@ class ServiceDeskRequestFieldValue:ServiceDeskEntity, DisplayClass {
         }
     }
     
-    func export()->Any? {
+    override func export()->Any? {
         return value
     }
 }

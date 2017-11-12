@@ -27,6 +27,10 @@ public class ServiceDesk {
     public static var formCreateButtonText = "Save"
     public static var formCancelButtonText = "Cancel"
     
+    
+    public static var requestLanguage:String = "fr"
+    public static var requestCountry:String = "CA"
+    
     internal static let MainColor = UIColor(red:32/255.0, green: 80.0/255.0, blue: 129.0/255.0,alpha:1.0)
     
     private var _host:String?
@@ -423,8 +427,9 @@ public class ServiceDesk {
         }
         var urlString = ServiceDesk.url_request_metadata
         urlString = urlString.replacingOccurrences(of: "[SERVICE_DESK_ID]", with: serviceDeskId)
+        urlString = urlString.replacingOccurrences(of: "[REQUEST_TYPE_ID]", with: requestTypeId)
+        urlString += "?requestLanguage=\(ServiceDesk.requestLanguage)-\(ServiceDesk.requestCountry)"
         
-         urlString = urlString.replacingOccurrences(of: "[REQUEST_TYPE_ID]", with: requestTypeId)
         let url = URL(string: "\(host)\(urlString)")!
         var request = URLRequest(url: url)
         request.addValue("application/json", forHTTPHeaderField: "Accept")
