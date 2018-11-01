@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'ServiceDeskKit'
-  s.version          = '1.0.1'
+  s.version          = '1.0.3'
   s.summary          = 'JIRA Service Desk Atlassian Tickets for iOS'
 
 # This description is used to generate tags and improve search results.
@@ -28,6 +28,7 @@ Using ServiceDeskKit you can generate forms directly for Atlassian's JIRA
   s.social_media_url = 'https://twitter.com/willpowelluk'
 
   s.ios.deployment_target = '8.0'
+s.swift_version = '3.0'
 
   s.source_files = 'ServiceDeskKit/Classes/**/*'
   

@@ -15,7 +15,12 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         ServiceDesk.shared.setup(host: "{host}", serviceDeskId: "{serviceDeskId}", requestTypeId: "{requestTypeId}")
         ServiceDesk.shared.preAuth(username: "{username}", password: "{password}")
+        ServiceDesk.shared.setup(host: "https://holtrenfrew.atlassian.net", serviceDeskId: "2", requestTypeId: "157")
+        ServiceDesk.shared.preAuth(username: "Holts360.User@holtrenfrew.com", password: "R3nfr3w99")
         
+        
+        /*ServiceDesk.shared.setup(host: "https://willptest.atlassian.net", serviceDeskId: "1", requestTypeId: "1")
+        ServiceDesk.shared.preAuth(username: "will.powell@keytree.co.uk", password: "plokij8u")*/
     }
     
     override func viewDidAppear(_ animated: Bool) {
