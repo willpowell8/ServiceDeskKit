@@ -119,8 +119,8 @@ class JIRAAttachmentsCollectionViewController: UICollectionViewController {
 }
 
 extension JIRAAttachmentsCollectionViewController:UIImagePickerControllerDelegate{
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]){
-        if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]){
+        if let image = info[.originalImage] as? UIImage {
             self.attachments.append(image)
             DispatchQueue.main.async {
                 self.delegate?.jiraSelected(field:self.field, item: self.attachments)

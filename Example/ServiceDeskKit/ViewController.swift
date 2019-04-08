@@ -52,9 +52,9 @@ class ViewController: UIViewController {
         let textColor = UIColor.black
         
         let textFontAttributes = [
-            NSFontAttributeName: font!,
-            NSForegroundColorAttributeName: textColor,
-            NSParagraphStyleAttributeName: paragraphStyle
+            NSAttributedString.Key.font: font!,
+            NSAttributedString.Key.foregroundColor: textColor,
+            NSAttributedString.Key.paragraphStyle: paragraphStyle
         ]
         
         let text = "HELLO WORLD"

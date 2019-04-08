@@ -36,7 +36,7 @@ class JIRATextFieldCell:JIRACell{
         }
         textField?.textColor = ServiceDesk.MainColor
         self.textLabel?.backgroundColor = .red
-        textField?.addTarget(self, action: #selector(didChangeTextfield), for: UIControlEvents.editingChanged)
+        textField?.addTarget(self, action: #selector(didChangeTextfield), for: UIControl.Event.editingChanged)
     }
     
     override func applyData(data:[String:Any]){

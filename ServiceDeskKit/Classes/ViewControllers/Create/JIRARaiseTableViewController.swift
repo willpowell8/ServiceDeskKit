@@ -187,11 +187,11 @@ class JIRARaiseTableViewController: UITableViewController {
             DispatchQueue.main.async {
                 hud.hide(animated: true)
                 if error != nil {
-                    let alert = UIAlertController(title: "Error", message: error, preferredStyle: UIAlertControllerStyle.alert)
-                    alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
+                    let alert = UIAlertController(title: "Error", message: error, preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
                     self.present(alert, animated: true, completion: nil)
                 }else{
-                    let alert = UIAlertController(title: "Created", message: key, preferredStyle: UIAlertControllerStyle.alert)
+                    let alert = UIAlertController(title: "Created", message: key, preferredStyle: .alert)
                     let action = UIAlertAction(title: "OK", style: .default, handler: { (action) in
                         self.dismiss(animated: true, completion: nil)
                     })

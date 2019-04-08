@@ -166,7 +166,7 @@ public class ServiceDesk {
             nav.navigationBar.barStyle = .blackOpaque
             nav.navigationBar.tintColor = UIColor.white
             nav.navigationBar.barTintColor = ServiceDesk.MainColor
-            nav.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white]
+            nav.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
             nav.navigationBar.isTranslucent = false
             nav.navigationBar.isOpaque = true
             currentController.present(nav, animated: true)
@@ -333,7 +333,7 @@ public class ServiceDesk {
                     datas.append((name: fileName, data: data, mimeType: mimeType))
                 }
             }else if let attachmentImage = attachment as? UIImage{
-                if let data = UIImagePNGRepresentation(attachmentImage) {
+                if let data = attachmentImage.pngData() {
                     datas.append((name: "Screenshot.png", data: data, mimeType: "image/png"))
                 }
             }

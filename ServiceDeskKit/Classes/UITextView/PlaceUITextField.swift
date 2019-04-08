@@ -82,7 +82,7 @@ internal class PlaceUITextView: UITextView {
     private func commonInit() {
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(textDidChange),
-                                               name: NSNotification.Name.UITextViewTextDidChange,
+                                               name: UITextView.textDidChangeNotification,
                                                object: nil)
         self.textColor = .black
         placeholderLabel.font = font
@@ -131,7 +131,7 @@ internal class PlaceUITextView: UITextView {
     
     deinit {
         NotificationCenter.default.removeObserver(self,
-                                                  name: NSNotification.Name.UITextViewTextDidChange,
+                                                  name: UITextView.textDidChangeNotification,
                                                   object: nil)
     }
     
